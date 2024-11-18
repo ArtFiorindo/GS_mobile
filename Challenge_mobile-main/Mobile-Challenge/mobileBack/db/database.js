@@ -8,9 +8,8 @@ const db = new sqlite3.Database('./lista-tarefas.db', (err) => {
   }
 });
 
-// Criação das tabelas se não existirem
+// Criação da tabela de usuários
 db.serialize(() => {
- 
   db.run(`
     CREATE TABLE IF NOT EXISTS usuarios (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,17 +17,6 @@ db.serialize(() => {
       email TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
       role TEXT NOT NULL DEFAULT 'user'
-    )
-  `);
-
-  db.run(`
-    CREATE TABLE IF NOT EXISTS pacientes (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nome TEXT NOT NULL,
-      cpf TEXT NOT NULL UNIQUE,
-      dataNascimento TEXT NOT NULL,
-      sinistro TEXT NOT NULL,
-      descricao TEXT
     )
   `);
 });
