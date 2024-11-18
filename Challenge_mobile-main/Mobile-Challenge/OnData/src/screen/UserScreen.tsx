@@ -183,6 +183,11 @@ const UserScreen = ({ navigation }: { navigation: any }) => {
               </TouchableOpacity>
             </View>
           )}
+
+          {/* Texto para Alterar Senha */}
+            <TouchableOpacity onPress={() => navigation.navigate('ResetPasswordScreen')}>
+                <Text style={styles.resetPasswordLink}>Alterar minha senha</Text>
+            </TouchableOpacity>
         </View>
 
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
@@ -301,6 +306,13 @@ const styles = StyleSheet.create({
   logoutText: {
     color: '#FFFFFF',
     fontSize: 16,
+  },
+  resetPasswordLink: {
+    fontSize: 14,
+    color: '#0000FF',
+    textDecorationLine: 'underline',
+    marginTop: 10,
+    alignSelf: 'flex-start',
   },
   footer: {
     flexDirection: 'row',
