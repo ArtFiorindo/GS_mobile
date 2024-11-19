@@ -17,4 +17,7 @@ router.get('/me', authMiddleware, userController.getUserDetails);
 // Rota para redefinição de senha
 router.post('/reset-password', userController.resetPassword);
 
+// Verificar se o username existe
+router.post('/verify-user', userController.verifyUser);
+
 module.exports = router;

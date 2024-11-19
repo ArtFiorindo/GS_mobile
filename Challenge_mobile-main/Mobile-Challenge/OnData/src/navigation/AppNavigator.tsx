@@ -8,6 +8,8 @@ import HomeScreen from '../screen/HomeScreen';
 import AboutScreen from '../screen/AboutScreen';
 import UserScreen from '../screen/UserScreen';
 import ResetPasswordScreen from '../screen/ResetPasswordScreen';
+import AddMedicaoScreen from '../screen/AddMedicaoScreen';
+import MedicoesScreen from '../screen/MedicoesScreen';
 
 
 
@@ -40,6 +42,18 @@ const AppNavigator: React.FC = () => {
         <Stack.Screen 
           name="AboutScreen" 
           component={AboutScreen} 
+          options={{ headerShown: false }} 
+        />  
+
+        <Stack.Screen 
+          name="AddMedicaoScreen" 
+          component={AddMedicaoScreen} 
+          options={{ headerShown: false }} 
+        />  
+
+        <Stack.Screen 
+          name="MedicoesScreen" 
+          component={MedicoesScreen} 
           options={{ headerShown: false }} 
         />  
 

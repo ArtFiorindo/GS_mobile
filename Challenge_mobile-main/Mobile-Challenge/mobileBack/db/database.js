@@ -21,4 +21,17 @@ db.serialize(() => {
   `);
 });
 
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS medicoes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      torre TEXT NOT NULL,
+      kwh REAL NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES usuarios (id)
+    )
+  `);
+});
+
+
 module.exports = db;

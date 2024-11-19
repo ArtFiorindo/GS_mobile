@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle } from 'react-native-svg';
+import Footer from '../components/Footer';
 
 const FullCircle = ({ color, percentage }: { color: string; percentage: number }) => {
   const radius = 40; // Raio do círculo
@@ -76,17 +77,8 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       </View>
 
       {/* Footer */}
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate('AboutScreen')}>
-          <Ionicons name="information-circle-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-          <Ionicons name="home-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('UserScreen')}>
-          <Ionicons name="person-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-      </View>
+      <Footer navigation={navigation} />
+        
     </LinearGradient>
   );
 };

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityInd
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Footer from '../components/Footer';
 
 const UserScreen = ({ navigation }: { navigation: any }) => {
   const [username, setUsername] = useState('');
@@ -195,18 +196,9 @@ const UserScreen = ({ navigation }: { navigation: any }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Footer with Navigation Icons */}
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate('AboutScreen')}>
-          <Ionicons name="information-circle-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-          <Ionicons name="home-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('UserScreen')}>
-          <Ionicons name="person-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-      </View>
+      {/* Footer */}
+      <Footer navigation={navigation} />
+        
     </LinearGradient>
   );
 };

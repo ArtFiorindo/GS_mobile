@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import Footer from '../components/Footer';
 
 const AboutScreen = ({ navigation }: { navigation: any }) => {
   return (
@@ -24,17 +25,7 @@ const AboutScreen = ({ navigation }: { navigation: any }) => {
       </View>
 
       {/* Footer */}
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate('About')}>
-          <Ionicons name="information-circle-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-          <Ionicons name="home-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('UserScreen')}>
-          <Ionicons name="person-outline" size={40} color="#FFFFFF" />
-        </TouchableOpacity>
-      </View>
+      <Footer navigation={navigation} />
     </LinearGradient>
   );
 };
@@ -55,7 +46,7 @@ const styles = StyleSheet.create({
     color: '#D1C187',
     fontWeight: 'bold',
   },
-  logoImage: {
+   logoImage: {
     width: 140, // Tamanho da imagem
     height: 140,
     resizeMode: 'contain',

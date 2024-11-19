@@ -92,6 +92,28 @@ exports.updateUser = (req, res) => {
 };
 
 
+// Verificar se o username existe e retornar o user_id
+exports.verifyUser = (req, res) => {
+  const { username } = req.body;
+
+  if (!username) {
+    return res.status(400).json({ error: 'O campo username é obrigatório.' });
+  }
+
+  db.get('SELECT id FROM usuarios WHERE username = ?', [username], (err, user) => {
+    if (err) {
+      return res.status(500).json({ error: 'Erro ao consultar o banco de dados.', details: err.message });
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+
+    res.status(200).json({ userId: user.id });
+  });
+};
+
+
 // Redefinição de senha usando `email`
 exports.resetPassword = (req, res) => {
   const { email, newPassword } = req.body;
