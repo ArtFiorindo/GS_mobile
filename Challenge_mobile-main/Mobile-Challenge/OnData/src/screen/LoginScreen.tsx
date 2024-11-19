@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
+  Image, // Importando o componente Image
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
@@ -69,8 +70,9 @@ const LoginScreen: React.FC = () => {
 
   return (
     <LinearGradient colors={['#3B3C31', '#53572E']} style={styles.container}>
+      {/* Substituição pelo componente Image */}
       <View style={styles.header}>
-        <Text style={styles.logoText}>⚡ Clean Energy</Text>
+        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
       </View>
 
       <View style={styles.inputContainer}>
@@ -122,48 +124,52 @@ const LoginScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'center', // Mantém os elementos centralizados
     alignItems: 'center',
+    paddingVertical: 40,
+    backgroundColor: '#3B3C31',
   },
   header: {
-    marginBottom: 50,
+    marginBottom: 30, // Espaçamento entre a imagem e os campos
     alignItems: 'center',
   },
-  logoText: {
-    fontSize: 30,
-    color: '#F9DA50',
-    fontWeight: '100',
+  logoImage: {
+    width: 200, // Tamanho da imagem
+    height: 200,
+    resizeMode: 'contain',
+    marginTop: -100, // Move apenas a imagem para cima
   },
   inputContainer: {
     width: '85%',
-    marginBottom: 20,
+    marginBottom: 15, // Espaçamento entre os inputs
     position: 'relative',
   },
   input: {
     width: '100%',
-    height: 50,
+    height: 45,
     borderBottomWidth: 1,
     borderBottomColor: '#AFAFAF',
-    fontSize: 16,
+    fontSize: 14,
     color: '#FFF',
     paddingLeft: 40,
   },
   iconStyle: {
     position: 'absolute',
     left: 10,
-    top: 15,
+    top: 12,
     color: '#AFAFAF',
   },
   button: {
-    width: 190,
-    height: 50,
+    width: 180,
+    height: 45,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
+    borderRadius: 22,
     marginTop: 20,
+    backgroundColor: 'transparent',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#0b0b0b',
   },
   forgotPasswordLink: {
@@ -171,7 +177,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     color: '#FFF',
-    fontSize: 14,
+    fontSize: 12,
     textDecorationLine: 'underline',
     textAlign: 'center',
   },
@@ -180,7 +186,7 @@ const styles = StyleSheet.create({
   },
   registerText: {
     color: '#FFF',
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'center',
   },
   registerHighlight: {
@@ -188,5 +194,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+
+
 
 export default LoginScreen;

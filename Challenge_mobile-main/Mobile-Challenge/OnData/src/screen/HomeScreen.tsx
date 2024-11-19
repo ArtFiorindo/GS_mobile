@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle } from 'react-native-svg';
@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     <LinearGradient colors={['#000000', '#000000']} style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logoText}>⚡ Clean Energy</Text>
+        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
         <Text style={styles.headerTitle}>Home</Text>
       </View>
 
@@ -106,6 +106,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#D1C187',
     fontWeight: 'bold',
+  },
+  logoImage: {
+    width: 140, // Tamanho da imagem
+    height: 140,
+    resizeMode: 'contain',
+    marginTop: -60, // Move apenas a imagem para cima
   },
   headerTitle: {
     fontSize: 32,

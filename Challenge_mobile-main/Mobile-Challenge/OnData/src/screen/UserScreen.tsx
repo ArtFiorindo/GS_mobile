@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -120,7 +120,7 @@ const UserScreen = ({ navigation }: { navigation: any }) => {
     <LinearGradient colors={['#000000', '#000000']} style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logoText}>⚡ Clean Energy</Text>
+      <Image source={require('../../assets/image.png')} style={styles.logoImage} />
         <Text style={styles.headerTitle}>Tela Usuário</Text>
       </View>
 
@@ -273,6 +273,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000000',
     marginBottom: 10,
+  },
+  logoImage: {
+    width: 140, // Tamanho da imagem
+    height: 140,
+    resizeMode: 'contain',
+    marginTop: -60, // Move apenas a imagem para cima
   },
   buttonRow: {
     flexDirection: 'row',

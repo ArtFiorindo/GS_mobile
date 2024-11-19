@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   StyleSheet,
+  Image
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
@@ -67,8 +68,8 @@ const RegisterScreen: React.FC = () => {
 
   return (
     <LinearGradient colors={['#3B3C31', '#53572E']} style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.logoText}>⚡ Clean Energy</Text>
+       <View style={styles.header}>
+        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
       </View>
 
       <View style={styles.inputContainer}>
@@ -138,6 +139,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logoImage: {
+    width: 200, // Tamanho da imagem
+    height: 200,
+    resizeMode: 'contain',
+    marginTop: -100, // Move apenas a imagem para cima
   },
   header: {
     marginBottom: 50,

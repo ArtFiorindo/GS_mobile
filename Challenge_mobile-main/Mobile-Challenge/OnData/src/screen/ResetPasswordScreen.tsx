@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Alert,
+  Image
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -67,7 +68,7 @@ const ResetPasswordScreen: React.FC = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logoText}>⚡ Clean Energy</Text>
+        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
         <Text style={styles.title}>
           Esqueceu a sua senha{'\n'}Não tem problema!
         </Text>
@@ -155,6 +156,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: '#F9DA50',
     fontWeight: '100',
+  },
+  logoImage: {
+    width: 200, // Tamanho da imagem
+    height: 200,
+    resizeMode: 'contain',
+    marginTop: -100, // Move apenas a imagem para cima
   },
   title: {
     fontSize: 20,
