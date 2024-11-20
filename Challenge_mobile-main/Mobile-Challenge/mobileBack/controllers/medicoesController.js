@@ -1,6 +1,5 @@
 const db = require('../db/database');
 
-
 // Criar uma nova medição
 exports.createMedicao = (req, res) => {
   const { user_id, torre, kwh } = req.body;
@@ -19,11 +18,21 @@ exports.createMedicao = (req, res) => {
         return res.status(500).json({ error: 'Erro ao criar a medição.', details: err.message });
       }
 
-      res.status(201).json({ message: 'Medição criada com sucesso!', medicao_id: this.lastID });
+      // Buscar a medição recém-criada para incluir o campo created_at na resposta
+      db.get(
+        `SELECT * FROM medicoes WHERE id = ?`,
+        [this.lastID],
+        (err, medicao) => {
+          if (err) {
+            return res.status(500).json({ error: 'Erro ao buscar medição criada.', details: err.message });
+          }
+
+          res.status(201).json({ message: 'Medição criada com sucesso!', medicao });
+        }
+      );
     }
   );
 };
-
 
 // Listar todas as medições
 exports.getAllMedicoes = (req, res) => {
@@ -79,7 +88,14 @@ exports.updateMedicao = (req, res) => {
     if (this.changes === 0) {
       return res.status(404).json({ error: 'Medição não encontrada.' });
     }
-    res.status(200).json({ message: 'Medição atualizada com sucesso!' });
+
+    // Retornar a medição atualizada
+    db.get(`SELECT * FROM medicoes WHERE id = ?`, [id], (err, medicao) => {
+      if (err || !medicao) {
+        return res.status(500).json({ error: 'Erro ao buscar medição atualizada.' });
+      }
+      res.status(200).json({ message: 'Medição atualizada com sucesso!', medicao });
+    });
   });
 };
 

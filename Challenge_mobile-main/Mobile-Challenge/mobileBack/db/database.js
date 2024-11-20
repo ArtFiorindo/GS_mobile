@@ -21,6 +21,7 @@ db.serialize(() => {
   `);
 });
 
+// Criação da tabela `medicoes` com o novo campo `created_at`
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS medicoes (
@@ -28,10 +29,16 @@ db.serialize(() => {
       user_id INTEGER NOT NULL,
       torre TEXT NOT NULL,
       kwh REAL NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES usuarios (id)
     )
-  `);
+  `, (err) => {
+    if (err) {
+      console.error('Erro ao criar a tabela medicoes: ' + err.message);
+    } else {
+      console.log('Tabela medicoes criada com sucesso.');
+    }
+  });
 });
-
 
 module.exports = db;

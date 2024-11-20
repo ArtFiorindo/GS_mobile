@@ -1,28 +1,26 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle } from 'react-native-svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import Footer from '../components/Footer';
 
 const FullCircle = ({ color, percentage }: { color: string; percentage: number }) => {
-  const radius = 40; // Raio do círculo
-  const strokeWidth = 10; // Largura do traço
-  const circumference = 2 * Math.PI * radius; // Comprimento total do círculo
+  const radius = 40;
+  const strokeWidth = 10;
+  const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
     <Svg width={100} height={100} viewBox="0 0 100 100">
-      {/* Fundo do círculo */}
-      <Circle
-        cx="50"
-        cy="50"
-        r={radius}
-        fill="none"
-        stroke="#E0E0E0"
-        strokeWidth={strokeWidth}
-      />
-      {/* Círculo proporcional ao percentual */}
+      <Circle cx="50" cy="50" r={radius} fill="none" stroke="#E0E0E0" strokeWidth={strokeWidth} />
       <Circle
         cx="50"
         cy="50"
@@ -33,52 +31,107 @@ const FullCircle = ({ color, percentage }: { color: string; percentage: number }
         strokeDasharray={circumference}
         strokeDashoffset={strokeDashoffset}
         strokeLinecap="round"
-        transform="rotate(-90 50 50)" // Rota para começar do topo
+        transform="rotate(-90 50 50)"
       />
     </Svg>
   );
 };
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
+  const [torreData, setTorreData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const API_URL_MEDICOES = 'http://localhost:3000/api/medicoes';
+
+  const fetchMedicoes = async () => {
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+      if (!token) {
+        Alert.alert('Erro', 'Token não encontrado. Faça login novamente.');
+        navigation.replace('LoginScreen');
+        return;
+      }
+
+      const response = await fetch(API_URL_MEDICOES, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        processTorreData(data);
+      } else {
+        Alert.alert('Erro', data.error || 'Erro ao buscar as medições.');
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const processTorreData = (data: any[]) => {
+    const torreSums = data.reduce((acc, item) => {
+      acc[item.torre] = (acc[item.torre] || 0) + item.kwh;
+      return acc;
+    }, {});
+
+    const totalKwh = Object.values(torreSums).reduce((sum, value) => sum + value, 0);
+
+    // Calcular porcentagem e ordenar pelo consumo (do menor para o maior)
+    const processedData = Object.entries(torreSums)
+      .map(([torre, kwh]) => ({
+        torre,
+        kwh,
+        percentage: ((kwh / totalKwh) * 100).toFixed(1),
+      }))
+      .sort((a, b) => a.kwh - b.kwh); // Ordena pelo consumo (kWh)
+
+    setTorreData(processedData);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchMedicoes();
+    }, [])
+  );
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center' }]}>
+        <ActivityIndicator size="large" color="#FFFFFF" />
+      </View>
+    );
+  }
+
   return (
     <LinearGradient colors={['#000000', '#000000']} style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Image source={require('../../assets/image.png')} style={styles.logoImage} />
         <Text style={styles.headerTitle}>Home</Text>
       </View>
 
-      {/* Cards Section */}
       <View style={styles.cardContainer}>
-        {/* Card 1 */}
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.cardTitle}>Torre A</Text>
-            <Text style={styles.cardPercentage}>15% Dos gastos gerais</Text>
+        {torreData.map(({ torre, kwh, percentage }, index) => (
+          <View key={index} style={styles.card}>
+            <View>
+              <Text style={styles.cardTitle}>{torre}</Text>
+              <Text style={styles.cardPercentage}>
+                {percentage}% dos gastos gerais ({kwh.toFixed(2)} kWh)
+              </Text>
+            </View>
+            <FullCircle
+              color={['#8EEA8A', '#F8D23B', '#F87272'][index]} // Verde, Amarelo, Vermelho por ordem
+              percentage={parseFloat(percentage)}
+            />
           </View>
-          <FullCircle color="#8EEA8A" percentage={15} />
-        </View>
-        {/* Card 2 */}
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.cardTitle}>Torre B</Text>
-            <Text style={styles.cardPercentage}>30% Dos gastos gerais</Text>
-          </View>
-          <FullCircle color="#F8D23B" percentage={30} />
-        </View>
-        {/* Card 3 */}
-        <View style={styles.card}>
-          <View>
-            <Text style={styles.cardTitle}>Torre C</Text>
-            <Text style={styles.cardPercentage}>45% Dos gastos gerais</Text>
-          </View>
-          <FullCircle color="#F87272" percentage={45} />
-        </View>
+        ))}
       </View>
 
-      {/* Footer */}
       <Footer navigation={navigation} />
-        
     </LinearGradient>
   );
 };
@@ -94,16 +147,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
   },
-  logoText: {
-    fontSize: 24,
-    color: '#D1C187',
-    fontWeight: 'bold',
-  },
   logoImage: {
-    width: 140, // Tamanho da imagem
+    width: 140,
     height: 140,
     resizeMode: 'contain',
-    marginTop: -60, // Move apenas a imagem para cima
+    marginTop: -60,
   },
   headerTitle: {
     fontSize: 32,
@@ -136,13 +184,6 @@ const styles = StyleSheet.create({
   cardPercentage: {
     fontSize: 14,
     color: '#555555',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    paddingBottom: 20,
-    backgroundColor: '#000000',
   },
 });
 

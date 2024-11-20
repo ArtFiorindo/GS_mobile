@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import Footer from '../components/Footer';
 
 const MedicoesScreen = ({ navigation }: { navigation: any }) => {
@@ -26,10 +27,6 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
   const API_URL_MEDICOES = 'http://localhost:3000/api/medicoes';
   const API_URL_UPDATE_MEDICAO = 'http://localhost:3000/api/medicoes/';
   const API_URL_DELETE_MEDICAO = 'http://localhost:3000/api/medicoes/';
-
-  useEffect(() => {
-    fetchMedicoes();
-  }, []);
 
   const fetchMedicoes = async () => {
     try {
@@ -60,6 +57,12 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
       setIsLoading(false);
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchMedicoes();
+    }, [])
+  );
 
   const handleUpdateMedicao = async (id: number) => {
     if (!editingKwh || !editingTorre) {
@@ -164,7 +167,13 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
               )}
 
               <Text style={styles.cardDate}>
-                Data: {new Date(item.created_at).toLocaleString()}
+                Data: {new Date(item.created_at).toLocaleString('pt-BR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </Text>
             </View>
 
@@ -199,7 +208,6 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
         )}
       />
 
-      {/* Footer */}
       <Footer navigation={navigation} />
     </LinearGradient>
   );
