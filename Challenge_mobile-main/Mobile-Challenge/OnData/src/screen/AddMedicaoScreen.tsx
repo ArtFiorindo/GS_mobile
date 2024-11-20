@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, Image, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,13 +13,21 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddMedicao = async () => {
-    if (!username || !torre || !kwh) {
-      Alert.alert('Erro', 'Preencha todos os campos obrigatórios!');
-      return;
-    }
-
     try {
+      // Verificação de campos obrigatórios
+      if (!username || !torre || !kwh) {
+        Alert.alert('Erro', 'Todos os campos são obrigatórios.');
+        return; // Impede a execução do restante do código
+      }
+
+      // Validação do campo kWh (somente valores numéricos positivos)
+      if (isNaN(parseFloat(kwh)) || parseFloat(kwh) <= 0) {
+        Alert.alert('Erro', 'O campo kWh deve ser um número válido e maior que 0.');
+        return;
+      }
+
       setIsLoading(true);
+
       const token = await AsyncStorage.getItem('authToken');
       if (!token) {
         Alert.alert('Erro', 'Token não encontrado. Faça login novamente.');
@@ -27,6 +35,7 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
         return;
       }
 
+      // Verificação do usuário
       const response = await fetch('http://localhost:3000/api/verify-user', {
         method: 'POST',
         headers: {
@@ -37,13 +46,16 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
       });
 
       const data = await response.json();
+
       if (!response.ok) {
-        Alert.alert('Erro', data.error || 'Usuário não encontrado.');
+        console.log('Erro na verificação do usuário:', data);
+        Alert.alert('Erro', data.error || 'Usuário não encontrado. Verifique e tente novamente.');
         return;
       }
 
       const userId = data.userId;
 
+      // Adicionar a nova medição
       const medicaoResponse = await fetch('http://localhost:3000/api/medicoes', {
         method: 'POST',
         headers: {
@@ -65,10 +77,12 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
         setTorre('');
         setKwh('');
       } else {
+        console.log('Erro na criação de medição:', medicaoData);
         Alert.alert('Erro', medicaoData.error || 'Erro ao adicionar a medição.');
       }
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+      console.error('Erro ao conectar ao servidor:', error);
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor. Tente novamente mais tarde.');
     } finally {
       setIsLoading(false);
     }
@@ -143,7 +157,6 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Footer */}
       <Footer navigation={navigation} />
     </LinearGradient>
   );

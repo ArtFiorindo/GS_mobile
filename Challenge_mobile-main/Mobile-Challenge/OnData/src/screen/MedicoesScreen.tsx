@@ -47,7 +47,8 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
 
       const data = await response.json();
       if (response.ok) {
-        setMedicoes(data);
+        const sortedData = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        setMedicoes(sortedData);
       } else {
         Alert.alert('Erro', data.error || 'Erro ao buscar as medições.');
       }
@@ -127,87 +128,93 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
 
   return (
     <LinearGradient colors={['#000000', '#000000']} style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <Image source={require('../../assets/image.png')} style={styles.logoImage} />
         <Text style={styles.headerTitle}>Gerenciar Medições</Text>
       </View>
 
-      <FlatList
-        data={medicoes}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View>
-              <Text style={styles.cardTitle}>Torre</Text>
-              {editingMedicaoId === item.id ? (
-                <Picker
-                  selectedValue={editingTorre}
-                  onValueChange={(value) => setEditingTorre(value)}
-                  style={styles.picker}
-                >
-                  <Picker.Item label="Torre A" value="Torre A" />
-                  <Picker.Item label="Torre B" value="Torre B" />
-                  <Picker.Item label="Torre C" value="Torre C" />
-                </Picker>
-              ) : (
-                <Text style={styles.cardValue}>{item.torre}</Text>
-              )}
+      {/* Lista de Medições */}
+      <View style={styles.listContainer}>
+        <FlatList
+          data={medicoes}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <View>
+                <Text style={styles.cardTitle}>Torre</Text>
+                {editingMedicaoId === item.id ? (
+                  <Picker
+                    selectedValue={editingTorre}
+                    onValueChange={(value) => setEditingTorre(value)}
+                    style={styles.picker}
+                  >
+                    <Picker.Item label="Torre A" value="Torre A" />
+                    <Picker.Item label="Torre B" value="Torre B" />
+                    <Picker.Item label="Torre C" value="Torre C" />
+                  </Picker>
+                ) : (
+                  <Text style={styles.cardValue}>{item.torre}</Text>
+                )}
 
-              <Text style={styles.cardTitle}>kWh</Text>
-              {editingMedicaoId === item.id ? (
-                <TextInput
-                  style={styles.input}
-                  value={editingKwh}
-                  onChangeText={setEditingKwh}
-                  placeholder="Editar kWh"
-                  keyboardType="numeric"
-                />
-              ) : (
-                <Text style={styles.cardValue}>{item.kwh}</Text>
-              )}
+                <Text style={styles.cardTitle}>kWh</Text>
+                {editingMedicaoId === item.id ? (
+                  <TextInput
+                    style={styles.input}
+                    value={editingKwh}
+                    onChangeText={setEditingKwh}
+                    placeholder="Editar kWh"
+                    keyboardType="numeric"
+                  />
+                ) : (
+                  <Text style={styles.cardValue}>{item.kwh}</Text>
+                )}
 
-              <Text style={styles.cardDate}>
-                Data: {new Date(item.created_at).toLocaleString('pt-BR', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </Text>
-            </View>
+                <Text style={styles.cardDate}>
+                  Data: {new Date(item.created_at).toLocaleString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </Text>
+              </View>
 
-            <View style={styles.cardActions}>
-              {editingMedicaoId === item.id ? (
+              <View style={styles.cardActions}>
+                {editingMedicaoId === item.id ? (
+                  <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={() => handleUpdateMedicao(item.id)}
+                  >
+                    <Ionicons name="checkmark-outline" size={24} color="#FFFFFF" />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={() => {
+                      setEditingMedicaoId(item.id);
+                      setEditingKwh(item.kwh.toString());
+                      setEditingTorre(item.torre);
+                    }}
+                  >
+                    <Ionicons name="pencil-outline" size={24} color="#FFFFFF" />
+                  </TouchableOpacity>
+                )}
                 <TouchableOpacity
-                  style={styles.actionButton}
-                  onPress={() => handleUpdateMedicao(item.id)}
+                  style={[styles.actionButton, { backgroundColor: '#FF4D4D' }]}
+                  onPress={() => handleDeleteMedicao(item.id)}
                 >
-                  <Ionicons name="checkmark-outline" size={24} color="#FFFFFF" />
+                  <Ionicons name="trash-outline" size={24} color="#FFFFFF" />
                 </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={styles.actionButton}
-                  onPress={() => {
-                    setEditingMedicaoId(item.id);
-                    setEditingKwh(item.kwh.toString());
-                    setEditingTorre(item.torre);
-                  }}
-                >
-                  <Ionicons name="pencil-outline" size={24} color="#FFFFFF" />
-                </TouchableOpacity>
-              )}
-              <TouchableOpacity
-                style={[styles.actionButton, { backgroundColor: '#FF4D4D' }]}
-                onPress={() => handleDeleteMedicao(item.id)}
-              >
-                <Ionicons name="trash-outline" size={24} color="#FFFFFF" />
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )}
-      />
+          )}
+          contentContainerStyle={styles.listContent}
+        />
+      </View>
 
+      {/* Footer Fixo */}
       <Footer navigation={navigation} />
     </LinearGradient>
   );
@@ -216,9 +223,6 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 40,
   },
   header: {
     marginTop: 20,
@@ -235,9 +239,16 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginTop: 10,
   },
+  listContainer: {
+    flex: 1,
+  },
+  listContent: {
+    paddingBottom: 100, // Espaço suficiente para o Footer
+  },
   card: {
+    alignSelf: 'center',
     backgroundColor: '#FFFFFF',
-    width: '100%',
+    width: '80%',
     padding: 20,
     marginVertical: 10,
     borderRadius: 15,

@@ -2,9 +2,9 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const Footer = ({ navigation }: { navigation: any }) => {
+const Footer = ({ navigation, style }: { navigation: any; style?: object }) => {
   return (
-    <View style={styles.footer}>
+    <View style={[styles.footer, style]}>
       <TouchableOpacity onPress={() => navigation.navigate('AboutScreen')}>
         <Ionicons name="information-circle-outline" size={40} color="#FFFFFF" />
       </TouchableOpacity>
@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     width: '100%',
-    paddingBottom: 20,
+    height: 80,
     backgroundColor: '#000000',
   },
 });
 
 export default Footer;
-
