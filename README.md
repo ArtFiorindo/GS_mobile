@@ -5,6 +5,16 @@
 Este projeto é uma aplicação mobile para monitorar e gerenciar o consumo de energia em torres de um condomínio, incentivando práticas mais sustentáveis. A aplicação permite o cadastro, autenticação de usuários, gerenciamento de medições e a visualização de dados em tempo real.
 
 ---
+## Equipe
+
+> *Artur Lopes Fiorindo* » 53481  
+> 
+> *Eduardo Felipe Nunes Função* » 553362  
+> 
+> *Jhoe Kochi Hashimoto* » 553831  
+>
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
 
