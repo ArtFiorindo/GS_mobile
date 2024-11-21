@@ -1,6 +1,10 @@
 # Suffra Dev
 
+---
+## 📋 **Descrição**
 Este projeto é uma aplicação mobile para monitorar e gerenciar o consumo de energia em torres de um condomínio, incentivando práticas mais sustentáveis. A aplicação permite o cadastro, autenticação de usuários, gerenciamento de medições e a visualização de dados em tempo real.
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
 
