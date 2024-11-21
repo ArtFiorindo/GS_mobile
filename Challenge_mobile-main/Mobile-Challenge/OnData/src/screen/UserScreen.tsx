@@ -118,10 +118,12 @@ const UserScreen = ({ navigation }: { navigation: any }) => {
   }
 
   return (
-    <LinearGradient colors={['#000000', '#000000']} style={styles.container}>
+    <LinearGradient colors={['#ffffff', '#ffffff']} style={styles.container}>
+
+      <View style={styles.backgroundElement} />
       {/* Header */}
       <View style={styles.header}>
-      <Image source={require('../../assets/image.png')} style={styles.logoImage} />
+      <Image source={require('../../assets/Suffra.png')} style={styles.logoImage} />
         <Text style={styles.headerTitle}>Tela Usuário</Text>
       </View>
 
@@ -206,51 +208,73 @@ const UserScreen = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
+    backgroundColor: '#ffffff', // Fundo branco geral
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingVertical: 40,
+  },
+  backgroundElement: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: '80%',
+    backgroundColor: '#ffcca2', // Cor mais escura para o fundo
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+    zIndex: -1,
   },
   header: {
     marginTop: 20,
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    width: '90%',
   },
-  logoText: {
-    fontSize: 24,
-    color: '#D1C187',
-    fontWeight: 'bold',
+  logoImage: {
+    width: 130,
+    height: 130,
+    resizeMode: 'contain',
+    marginTop: -40,
+    top: 10,
+    left: 0,
   },
   headerTitle: {
-    fontSize: 32,
-    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#000000',
     marginTop: 10,
+    alignSelf: 'center',
   },
   card: {
-    backgroundColor: '#FFFFFF',
-    width: '80%',
-    borderRadius: 15,
-    padding: 20,
+    backgroundColor: '#ffe8d5', // Fundo mais claro
+    width: '90%',
+    height: '50%',
+    borderRadius: 50,
+    paddingTop: 90,
+    marginTop: 50,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 4,
   },
   profilePicture: {
+    marginTop: -40,
     marginBottom: 20,
   },
   infoContainer: {
     width: '100%',
-    marginBottom: 20,
+    alignItems: 'center',
   },
   label: {
-    fontSize: 14,
-    color: '#555555',
+    fontSize: 16,
+    color: '#000000',
+    fontWeight: 'bold',
     marginBottom: 5,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#000000',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   editableRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
   },
@@ -258,66 +282,73 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#0000FF',
     textDecorationLine: 'underline',
+    marginTop: 5,
   },
   input: {
     borderBottomWidth: 1,
     borderBottomColor: '#CCCCCC',
     fontSize: 16,
     color: '#000000',
-    marginBottom: 10,
+    marginBottom: 20,
+    width: '90%',
+    textAlign: 'center',
   },
-  logoImage: {
-    width: 140, // Tamanho da imagem
-    height: 140,
-    resizeMode: 'contain',
-    marginTop: -60, // Move apenas a imagem para cima
+  resetPasswordLink: {
+    fontSize: 16,
+    color: '#0000FF',
+    textDecorationLine: 'underline',
+    marginTop: 15,
+  },
+  saveButton: {
+    backgroundColor: '#4CAF50', // Verde para o botão de salvar
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  cancelButton: {
+    backgroundColor: '#FF4D4D', // Vermelho para o botão de cancelar
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
   },
   buttonRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
     marginTop: 10,
-  },
-  saveButton: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  cancelButton: {
-    backgroundColor: '#FF0000',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    justifyContent: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   logoutButton: {
-    backgroundColor: '#FF0000',
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 10,
+    backgroundColor: '#FF4D4D',
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    borderRadius: 25,
     marginTop: 20,
   },
   logoutText: {
     color: '#FFFFFF',
-    fontSize: 16,
-  },
-  resetPasswordLink: {
-    fontSize: 14,
-    color: '#0000FF',
-    textDecorationLine: 'underline',
-    marginTop: 10,
-    alignSelf: 'flex-start',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   footer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: 55,
+    backgroundColor: '#ffe8d5',
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '100%',
-    paddingBottom: 20,
+    alignItems: 'center',
   },
 });
 
 export default UserScreen;
+
+
+

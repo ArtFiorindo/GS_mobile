@@ -127,10 +127,10 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
   }
 
   return (
-    <LinearGradient colors={['#000000', '#000000']} style={styles.container}>
+    <LinearGradient colors={['#ffffff', '#ffffff']} style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
+        <Image source={require('../../assets/Suffra.png')} style={styles.logoImage} />
         <Text style={styles.headerTitle}>Gerenciar Medições</Text>
       </View>
 
@@ -223,74 +223,114 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff', // Fundo branco geral
   },
   header: {
     marginTop: 20,
     alignItems: 'center',
   },
   logoImage: {
-    width: 140,
-    height: 140,
+    width: 130,
+    height: 130,
     resizeMode: 'contain',
-    marginTop: -60,
+    marginTop: -40,
+    top: 5, // Ajustar a margem superior
+    left: -130, // Ajustar a margem à esquerda
   },
   headerTitle: {
-    fontSize: 32,
-    color: '#FFFFFF',
+    fontSize: 28,
+    color: '#000000',
     marginTop: 10,
+    fontWeight: 'bold',
   },
   listContainer: {
     flex: 1,
+    backgroundColor: '#ffcca2', // Fundo do cartão maior (mais escuro)
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    marginTop: 40,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 60, // Espaço para o Footer
   },
   listContent: {
-    paddingBottom: 100, // Espaço suficiente para o Footer
+    paddingBottom: 20, // Espaço entre o final da lista e o Footer
   },
   card: {
-    alignSelf: 'center',
-    backgroundColor: '#FFFFFF',
-    width: '80%',
-    padding: 20,
-    marginVertical: 10,
+    backgroundColor: '#ffe8d5', // Fundo mais claro para os itens individuais
     borderRadius: 15,
+    padding: 20,
+    marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3, // Sombra para Android
   },
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000000',
+    marginBottom: 5,
   },
   cardValue: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#555555',
-    marginBottom: 5,
+    marginBottom: 10,
   },
   cardDate: {
     fontSize: 12,
     color: '#888888',
   },
-  picker: {
-    width: '100%',
-  },
   cardActions: {
     flexDirection: 'row',
-    marginTop: 10,
   },
   actionButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#4CAF50', // Botão verde para editar
     padding: 10,
     borderRadius: 5,
     marginLeft: 10,
   },
+  deleteButton: {
+    backgroundColor: '#FF4D4D', // Botão vermelho para excluir
+    padding: 10,
+    borderRadius: 5,
+  },
+  picker: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    backgroundColor: '#fff',
+  },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
-    fontSize: 14,
+    borderBottomColor: '#ccc',
+    fontSize: 16,
     color: '#000',
-    marginTop: 5,
+    paddingVertical: 5,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+    height: 60,
+    backgroundColor: '#ffe8d5', // Fundo claro para o Footer
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+    position: 'absolute',
+    bottom: 0, // Fixa o Footer na parte inferior
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: -3 },
+    shadowRadius: 4,
   },
 });
 
 export default MedicoesScreen;
+
+

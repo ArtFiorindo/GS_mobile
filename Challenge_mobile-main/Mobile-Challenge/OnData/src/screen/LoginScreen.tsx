@@ -72,7 +72,7 @@ const LoginScreen: React.FC = () => {
     <LinearGradient colors={['#3B3C31', '#53572E']} style={styles.container}>
       {/* Substituição pelo componente Image */}
       <View style={styles.header}>
-        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
+        <Image source={require('../../assets/Suffra-w.png')} style={styles.logoImage} />
       </View>
 
       <View style={styles.inputContainer}>

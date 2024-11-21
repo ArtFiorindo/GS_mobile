@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Image,
+  Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Circle } from 'react-native-svg';
@@ -81,14 +82,13 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     const totalKwh = Object.values(torreSums).reduce((sum, value) => sum + value, 0);
 
-    // Calcular porcentagem e ordenar pelo consumo (do menor para o maior)
     const processedData = Object.entries(torreSums)
       .map(([torre, kwh]) => ({
         torre,
         kwh,
         percentage: ((kwh / totalKwh) * 100).toFixed(1),
       }))
-      .sort((a, b) => a.kwh - b.kwh); // Ordena pelo consumo (kWh)
+      .sort((a, b) => a.kwh - b.kwh);
 
     setTorreData(processedData);
   };
@@ -102,17 +102,20 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
   if (isLoading) {
     return (
       <View style={[styles.container, { justifyContent: 'center' }]}>
-        <ActivityIndicator size="large" color="#FFFFFF" />
+        <ActivityIndicator size="large" color="#000000" />
       </View>
     );
   }
 
   return (
-    <LinearGradient colors={['#000000', '#000000']} style={styles.container}>
+    <LinearGradient colors={['#ffffff', '#ffffff']} style={styles.container}>
       <View style={styles.header}>
-        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
+        <Image source={require('../../assets/Suffra.png')} style={styles.logoImage} />
         <Text style={styles.headerTitle}>Home</Text>
       </View>
+
+      {/* Adicionando o elemento de fundo atrás dos cartões */}
+      <View style={styles.backgroundElement} />
 
       <View style={styles.cardContainer}>
         {torreData.map(({ torre, kwh, percentage }, index) => (
@@ -142,32 +145,47 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 40,
+    backgroundColor: '#ffe8d5',
   },
   header: {
     marginTop: 20,
     alignItems: 'center',
   },
   logoImage: {
-    width: 140,
-    height: 140,
+    width: 130,
+    height: 130,
     resizeMode: 'contain',
-    marginTop: -60,
+    marginTop: -40,
+    top: -30, // Ajustar a margem superior
+    left: -130, // Ajustar a margem à esquerda
   },
   headerTitle: {
     fontSize: 32,
-    color: '#FFFFFF',
+    color: '#000000',
     marginTop: 10,
+    fontWeight: 'bold',
+  },
+  
+  backgroundElement: {
+    position: 'absolute',
+    top: '25%',
+    width: '100%',
+    height: '70%',
+    backgroundColor: '#ffcca2', // Cor de fundo atrás dos cartões
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
   },
   cardContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    marginTop: 20,
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ffe8d5',
     width: '80%',
-    height: '25%',
+    height: '20%',
     padding: 20,
     marginVertical: 10,
     borderRadius: 15,
@@ -175,6 +193,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 4,
   },
   cardTitle: {
     fontSize: 18,

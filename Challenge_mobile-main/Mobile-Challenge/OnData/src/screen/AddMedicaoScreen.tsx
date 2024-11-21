@@ -14,13 +14,11 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
 
   const handleAddMedicao = async () => {
     try {
-      // Verificação de campos obrigatórios
       if (!username || !torre || !kwh) {
         Alert.alert('Erro', 'Todos os campos são obrigatórios.');
-        return; // Impede a execução do restante do código
+        return;
       }
 
-      // Validação do campo kWh (somente valores numéricos positivos)
       if (isNaN(parseFloat(kwh)) || parseFloat(kwh) <= 0) {
         Alert.alert('Erro', 'O campo kWh deve ser um número válido e maior que 0.');
         return;
@@ -35,7 +33,6 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
         return;
       }
 
-      // Verificação do usuário
       const response = await fetch('http://localhost:3000/api/verify-user', {
         method: 'POST',
         headers: {
@@ -48,14 +45,12 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        console.log('Erro na verificação do usuário:', data);
         Alert.alert('Erro', data.error || 'Usuário não encontrado. Verifique e tente novamente.');
         return;
       }
 
       const userId = data.userId;
 
-      // Adicionar a nova medição
       const medicaoResponse = await fetch('http://localhost:3000/api/medicoes', {
         method: 'POST',
         headers: {
@@ -77,11 +72,9 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
         setTorre('');
         setKwh('');
       } else {
-        console.log('Erro na criação de medição:', medicaoData);
         Alert.alert('Erro', medicaoData.error || 'Erro ao adicionar a medição.');
       }
     } catch (error) {
-      console.error('Erro ao conectar ao servidor:', error);
       Alert.alert('Erro', 'Não foi possível conectar ao servidor. Tente novamente mais tarde.');
     } finally {
       setIsLoading(false);
@@ -97,11 +90,13 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
   }
 
   return (
-    <LinearGradient colors={['#000000', '#000000']} style={styles.container}>
+    <LinearGradient colors={['#ffffff', '#ffffff']} style={styles.container}>
       <View style={styles.header}>
-        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
+        <Image source={require('../../assets/Suffra.png')} style={styles.logoImage} />
         <Text style={styles.headerTitle}>Adicionar Medição</Text>
       </View>
+
+      <View style={styles.backgroundElement} />
 
       <View style={styles.card}>
         <View style={styles.inputRow}>
@@ -156,6 +151,7 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
           <Text style={styles.buttonText}>Adicionar</Text>
         </TouchableOpacity>
       </View>
+      
 
       <Footer navigation={navigation} />
     </LinearGradient>
@@ -165,62 +161,79 @@ const AddMedicaoScreen = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 40,
+    alignItems: 'center', // Centraliza horizontalmente
+    backgroundColor: '#ffe8d5',
+    justifyContent: 'flex-start', // Alinha todo o conteúdo no topo
   },
   header: {
-    marginTop: 20,
     alignItems: 'center',
+    paddingHorizontal: 20,
+    width: '100%',
   },
   logoImage: {
-    width: 140,
-    height: 140,
+    width: 130,
+    height: 130,
     resizeMode: 'contain',
-    marginTop: -60,
+    marginTop: -40,
+    top: 30, // Ajustar a margem superior
+    left: -130, // Ajustar a margem à esquerda
+  },
+  backgroundElement: {
+    position: 'absolute',
+    top: '25%',
+    width: '100%',
+    height: '70%',
+    backgroundColor: '#ffcca2',
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    zIndex: -1, // Garante que o fundo fique atrás do card
   },
   headerTitle: {
     fontSize: 32,
-    color: '#FFFFFF',
-    marginTop: 10,
+    color: '#000000',
+    marginTop: 50,
+    fontWeight: 'bold',
   },
   card: {
-    backgroundColor: '#FFFFFF',
-    width: '85%',
+    backgroundColor: '#ffe8d5',
+    width: '90%',
     borderRadius: 15,
-    padding: 20,
-    alignItems: 'center',
+    padding: 30, // Aumenta o padding interno do card para mais espaço
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    marginTop: 200, // Ajusta a posição vertical do card
   },
   inputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
-    width: '100%',
+    marginBottom: 30, // Aumenta o espaço entre os inputs
   },
   icon: {
-    marginRight: 15,
+    marginRight: 15, // Aumenta o espaço entre o ícone e o texto
   },
   inputContainer: {
     flex: 1,
   },
   label: {
-    fontSize: 14,
-    color: '#555555',
-    marginBottom: 5,
+    fontSize: 14, // Tamanho maior para melhor leitura
+    fontWeight: 'bold',
+    marginBottom: 8, // Mais espaço entre a label e o campo
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
-    fontSize: 16,
-    color: '#000000',
-    paddingVertical: 5,
+    borderBottomColor: '#000',
+    fontSize: 16, // Texto maior nos inputs
+    color: '#000',
+    paddingVertical: 6, // Aumenta o espaço interno dos inputs
   },
   pickerWrapper: {
     borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderColor: '#000',
     borderRadius: 5,
-    width: '100%',
     overflow: 'hidden',
+    backgroundColor: '#fff',
   },
   picker: {
     width: '100%',
@@ -228,15 +241,37 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: '#67adf4',
-    paddingVertical: 12,
-    paddingHorizontal: 50,
-    borderRadius: 5,
-    marginTop: 10,
+    paddingVertical: 15, // Aumenta o tamanho do botão
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 4,
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
+    color: '#fff',
+    fontSize: 18, // Texto maior no botão
+    fontWeight: 'bold',
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+    height: 55,
+    backgroundColor: '#ffe8d5',
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: -3 },
+    shadowRadius: 4,
+    position: 'absolute', // Permite que o footer fique fixo na parte inferior
+    bottom: 0, // Fixado na parte inferior
   },
 });
+
 
 export default AddMedicaoScreen;

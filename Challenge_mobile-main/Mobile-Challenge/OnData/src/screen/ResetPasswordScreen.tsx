@@ -68,7 +68,7 @@ const ResetPasswordScreen: React.FC = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <Image source={require('../../assets/image.png')} style={styles.logoImage} />
+        <Image source={require('../../assets/Suffra-w.png')} style={styles.logoImage} />
         <Text style={styles.title}>
           Esqueceu a sua senha{'\n'}Não tem problema!
         </Text>
