@@ -4,7 +4,7 @@
 ---
  
 ## 📋 *Descrição*
-Este projeto é uma aplicação mobile para monitorar e gerenciar o consumo de energia em torres de um condomínio, incentivando práticas mais sustentáveis. A aplicação permite o cadastro, autenticação de usuários, gerenciamento de medições e a visualização de dados em tempo real.
+Este projeto é uma aplicação mobile de competição em um condomínio para avaliar qual torre está consumindo menos energia em kWh. O usuário irá imputar os dados e terá um dashboard de acompanhamento, que em determinado período irá ser feito o fechamento e cálculo de avaliação. Caso pertença a torre que possui menor utitização de energia, irá ganhar um desconto na fatura de condomínio. Possibilitando uma reflexão de uso mais consciente.
  
 ---
  
