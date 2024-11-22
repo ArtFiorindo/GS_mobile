@@ -6,31 +6,31 @@ const Footer = ({ navigation, style }: { navigation: any; style?: object }) => {
     <View style={[styles.footer, style]}>
       <TouchableOpacity onPress={() => navigation.navigate('AboutScreen')}>
         <Image
-          source={require('../../assets/sinal-de-informacao.png')} // Substitua pelo caminho da sua imagem
+          source={require('../../assets/sinal-de-informacao.png')} 
           style={styles.icon}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('MedicoesScreen')}>
         <Image
-          source={require('../../assets/history.png')} // Substitua pelo caminho da sua imagem
+          source={require('../../assets/history.png')} 
           style={styles.icon}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
         <Image
-          source={require('../../assets/casa.png')} // Substitua pelo caminho da sua imagem
+          source={require('../../assets/casa.png')} 
           style={styles.icon}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('AddMedicaoScreen')}>
         <Image
-          source={require('../../assets/medidor.png')} // Substitua pelo caminho da sua imagem
+          source={require('../../assets/medidor.png')} 
           style={styles.icon}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('UserScreen')}>
         <Image
-          source={require('../../assets/perfil.png')} // Substitua pelo caminho da sua imagem
+          source={require('../../assets/perfil.png')} 
           style={styles.icon}
         />
       </TouchableOpacity>
@@ -45,20 +45,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 55,
-    backgroundColor: '#ffe8d5', // Cor do fundo
+    backgroundColor: '#ffe8d5', 
     borderTopWidth: 1,
     borderTopColor: '#ccc',
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: -3 },
     shadowRadius: 4,
-    position: 'absolute',
+    position: 'absolute', // Mantém o footer fixo na parte inferior da tela
     bottom: 0,
+    zIndex: 10, // Garante que fique sobre outros elementos
   },
   icon: {
-    width: 30, // Largura da imagem
-    height: 30, // Altura da imagem
-    resizeMode: 'contain', // Ajusta o tamanho sem distorcer
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
   },
 });
 

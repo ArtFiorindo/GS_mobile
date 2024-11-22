@@ -9,6 +9,7 @@ import {
   FlatList,
   ActivityIndicator,
   Image,
+  Dimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,6 +17,8 @@ import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import Footer from '../components/Footer';
+
+const { height } = Dimensions.get('window'); // Obtém a altura da tela
 
 const MedicoesScreen = ({ navigation }: { navigation: any }) => {
   const [medicoes, setMedicoes] = useState([]);
@@ -127,14 +130,14 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
   }
 
   return (
-    <LinearGradient colors={['#ffffff', '#ffffff']} style={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
+      <LinearGradient colors={['#ffffff', '#ffffff']} style={styles.header}>
         <Image source={require('../../assets/Suffra.png')} style={styles.logoImage} />
-        <Text style={styles.headerTitle}>Gerenciar Medições</Text>
-      </View>
+        <Text style={styles.headerTitle}>Histórico de Medição</Text>
+      </LinearGradient>
 
-      {/* Lista de Medições */}
+      {/* Lista de Medições com altura limitada */}
       <View style={styles.listContainer}>
         <FlatList
           data={medicoes}
@@ -157,7 +160,7 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
                   <Text style={styles.cardValue}>{item.torre}</Text>
                 )}
 
-                <Text style={styles.cardTitle}>kWh</Text>
+                <Text style={styles.cardTitle}>Gasto em Kwh</Text>
                 {editingMedicaoId === item.id ? (
                   <TextInput
                     style={styles.input}
@@ -211,22 +214,23 @@ const MedicoesScreen = ({ navigation }: { navigation: any }) => {
             </View>
           )}
           contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
         />
       </View>
 
-      {/* Footer Fixo */}
+      {/* Footer fixo */}
       <Footer navigation={navigation} />
-    </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff', // Fundo branco geral
   },
   header: {
-    marginTop: 20,
+    paddingTop: 40,
+    paddingBottom: 20,
     alignItems: 'center',
   },
   logoImage: {
@@ -234,32 +238,27 @@ const styles = StyleSheet.create({
     height: 130,
     resizeMode: 'contain',
     marginTop: -40,
-    top: 5, // Ajustar a margem superior
+    top: -10, // Ajustar a margem superior
     left: -130, // Ajustar a margem à esquerda
   },
   headerTitle: {
     fontSize: 28,
-    color: '#000000',
-    marginTop: 10,
     fontWeight: 'bold',
+    color: '#000',
+    marginTop: 10,
   },
   listContainer: {
     flex: 1,
-    backgroundColor: '#ffcca2', // Fundo do cartão maior (mais escuro)
+    maxHeight: height * 0.75, // Limita a altura para 75% da tela
+    backgroundColor: '#ffcca2',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    marginTop: 40,
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    paddingBottom: 60, // Espaço para o Footer
-  },
-  listContent: {
-    paddingBottom: 20, // Espaço entre o final da lista e o Footer
+    padding: 20,
   },
   card: {
-    backgroundColor: '#ffe8d5', // Fundo mais claro para os itens individuais
-    borderRadius: 15,
-    padding: 20,
+    backgroundColor: '#ffe8d5',
+    borderRadius: 20,
+    padding: 15,
     marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -268,39 +267,33 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
-    elevation: 3, // Sombra para Android
+    elevation: 3,
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#000',
     marginBottom: 5,
   },
   cardValue: {
-    fontSize: 16,
-    color: '#555555',
-    marginBottom: 10,
+    fontSize: 14,
+    color: '#555',
+    marginBottom: 5,
   },
   cardDate: {
     fontSize: 12,
-    color: '#888888',
+    color: '#888',
   },
   cardActions: {
     flexDirection: 'row',
   },
   actionButton: {
-    backgroundColor: '#4CAF50', // Botão verde para editar
-    padding: 10,
+    backgroundColor: '#4CAF50',
+    padding: 8,
     borderRadius: 5,
     marginLeft: 10,
   },
-  deleteButton: {
-    backgroundColor: '#FF4D4D', // Botão vermelho para excluir
-    padding: 10,
-    borderRadius: 5,
-  },
   picker: {
-    width: '100%',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
@@ -313,24 +306,6 @@ const styles = StyleSheet.create({
     color: '#000',
     paddingVertical: 5,
   },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: '100%',
-    height: 60,
-    backgroundColor: '#ffe8d5', // Fundo claro para o Footer
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    position: 'absolute',
-    bottom: 0, // Fixa o Footer na parte inferior
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: -3 },
-    shadowRadius: 4,
-  },
 });
 
 export default MedicoesScreen;
-
-
